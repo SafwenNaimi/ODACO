@@ -1,1 +1,1 @@
-sudo ln -s /usr/lib/arm-linux-gnueabihf/libGLESv2.so.2 /usr/lib/arm-linux-gnueabihf/libGLESv2.so
+sudo apt-get install qt-sdk qtbase5-dev libgl1-mesa-dev
