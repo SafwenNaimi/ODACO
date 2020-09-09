@@ -320,21 +320,6 @@ class Ui_MainWindow(object):
         
 
     def retranslateUi(self, MainWindow):
-        with open('filename.txt', 'r') as g:
-            data = g.readlines()
-        k=int(data[0])
-        #print(k)
-        if k==0:
-            pour=0
-        elif (k==1):
-            pour=25
-        elif k==2:
-            pour=50
-        elif k==3:
-            pour=75
-        else:
-            pour=100
-        #h=str(k)
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_title.setText(_translate("MainWindow", "ODACO-Results"))
@@ -342,18 +327,8 @@ class Ui_MainWindow(object):
         self.btn_minimize.setToolTip(_translate("MainWindow", "Minimize"))
         self.btn_close.setToolTip(_translate("MainWindow", "Close"))
         self.label.setText(_translate("MainWindow", "Exercice1"))
-        self.label_2.setText(_translate("MainWindow", str(pour)+'%'))
-        #print(data)
-        if data[0]=='0':
-            self.label_13.setText(_translate("MainWindow", "Very Bad"))
-        elif data[0]=='1':
-            self.label_13.setText(_translate("MainWindow", "Poor Performance"))
-        elif data[0]=='2':
-            self.label_13.setText(_translate("MainWindow", "Not Bad, Continue"))
-        elif data[0]=='3':
-            self.label_13.setText(_translate("MainWindow", "Great"))
-        else:
-            self.label_13.setText(_translate("MainWindow", "Excellent Work"))
+        self.label_2.setText(_translate("MainWindow", "25%"))
+        self.label_13.setText(_translate("MainWindow", "Your results for the Past 3 Exercices"))
 
 import os
 if __name__ == "__main__":
@@ -364,8 +339,9 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     
     MainWindow.show()
+    MainWindow.showFullScreen()
     
-    QtCore.QTimer.singleShot(5000, MainWindow.close)
+    QtCore.QTimer.singleShot(18000, MainWindow.close)
     sys.exit(app.exec_())
     
 
