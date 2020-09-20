@@ -1,35 +1,28 @@
 import cv2
+import numpy as np     # Numpy module will be used for horizontal stacking of two frames
 
+video=cv2.VideoCapture(0)
+a=0
+while True:
+    a=a+1
+    check, frame= video.read()
 
+    # Converting the input frame to grayscale
+    gray=cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)   
 
-# Create a VideoCapture object and read from input file
-# If the input is the camera, pass 0 instead of the video file name
-cap = cv2.VideoCapture('Untitled Project.mp4')
+    # Fliping the image as said in question
+    gray_flip = cv2.flip(gray,1)
 
+    # Combining the two different image frames in one window
+    combined_window = np.hstack([gray,gray_flip])
 
-# Check if camera opened successfully
-if (cap.isOpened()== False):
-  print("Error opening video stream or file")
+    # Displaying the single window
+    cv2.imshow("Combined videos ",combined_window)
+    key=cv2.waitKey(1)
 
-# Read until video is completed
-while (cap.isOpened()):
-    # Capture frame-by-frame
-    ret, frame = cap.read()
-    if ret == True:
-
-        # Display the resulting frame
-        cv2.imshow('Frame', frame)
-
-        # Press Q on keyboard to  exit
-        if cv2.waitKey(25) & 0xFF == ord('q'):
-            break
-
-    # Break the loop
-    else:
+    if key==ord('q'):
         break
+print(a)
 
-# When everything done, release the video capture object
-cap.release()
-
-# Closes all the frames
-cv2.destroyAllWindows()
+video.release()
+cv2.destroyAllWindows
