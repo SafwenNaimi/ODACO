@@ -20,7 +20,7 @@ import numpy as np
 import socket
 import datetime
 import time
-#import simpleaudio as sa
+
 
 #time.sleep(50)
 
@@ -38,39 +38,7 @@ kpoint : keypoints (float type range : 0.0 ~ 1.0 ==> later multiply by image wid
 t=time.time()
 
 
-def speak(path):
-    mixer.init()
-    mixer.music.load(path)
-    mixer.music.play()
 
-def motivate(ch):
-    trois = ["trois_lettres_1" , "trois_lettres_2"]
-    quatre = ["quatre_lettres_1","quatre_lettres_2"]
-    zero = ["zero_lettres_1", "zero_lettres_2","zero_lettres_3"]
-    if len(ch)==1:
-        if (ch == 'a'):
-            speak("motivation/bras_droite.mp3")
-        if (ch == 'b'):
-            speak("motivation/bras_gauche.mp3")
-        if (ch == 'c'):
-            speak("motivation/jambe_gauche.mp3")
-        if (ch == 'd'):
-            speak("motivation/jambe_droite.mp3")
-        if (ch == 'j'):
-            speak("motivation/"+random.choice(zero)+".mp3")
-
-    elif len(ch)==2:
-        if (ch == 'ab') or (ch == 'ba'):
-            speak("motivation/partie_superieure.mp3")
-        elif (ch == 'cd') or (ch == 'dc'):
-            speak("motivation/partie_inferieure.mp3")
-        else:
-            a = random.randrange(1)
-            motivate(ch[a])
-    elif len(ch)==3:
-        speak("motivation/"+random.choice(trois)+".mp3")
-    elif len(ch) == 4:
-        speak("motivation/"+random.choice(quatre)+".mp3")
 
 
     
@@ -185,16 +153,18 @@ X_compress = 640.0 / WIDTH * 1.0
 Y_compress = 480.0 / HEIGHT * 1.0
 
 
-
+with open('testing.txt', 'r') as f:
+    a=f.read()
 
 parse_objects = ParseObjects(topology)
 draw_objects = DrawObjects(topology)
 
-while cap.isOpened()  :#and (count < 300)
+while cap.isOpened()  and ((a == 'do start') or (a == 'do start\n')):#and (count < 300)
     
     #print(os.environ['test'])
     #print(count)
-  
+    with open('testing.txt', 'r') as f:
+        a=f.read()
     #print(a)
     t_3 = time.time()
     ret_val, src = cap.read()
@@ -284,11 +254,12 @@ while cap.isOpened()  :#and (count < 300)
                    
                     if (30<(round(anglee)) < 43)  and (15<(round(angleeeeee)) < 45): 
                         color=(0,255,0)  
-                        cv2.putText(src , "right elbow " , (20, 60),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
+                        #cv2.putText(src , "right elbow " , (20, 60),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
                         cv2.line(src,(round(keypoints[5][2] * WIDTH * X_compress), round(keypoints[5][1] * HEIGHT * Y_compress)),(round(keypoints[7][2] * WIDTH * X_compress), round(keypoints[7][1] * HEIGHT * Y_compress)),(102,200,111),2)
                         cv2.line(src,(round(keypoints[7][2] * WIDTH * X_compress), round(keypoints[7][1] * HEIGHT * Y_compress)),(round(keypoints[9][2] * WIDTH * X_compress), round(keypoints[9][1] * HEIGHT * Y_compress)),(102,200,111),2)  
-                        if command_3[(len(command_3))-1]!='b':
-                            command_3 = (command_3+'b')[:3]
+                        cv2.circle(src, (round(keypoints[5][2] * WIDTH * X_compress), round(keypoints[5][1] * HEIGHT * Y_compress)), 3, (102,200,111), 2)
+                        if command_3[(len(command_3))-1]!='a':
+                            command_3 = (command_3+'a')[:3]
 
                         
                         
@@ -300,14 +271,15 @@ while cap.isOpened()  :#and (count < 300)
                         #s.send(command.encode('utf-8'))
                         
                     else:
-                        cv2.putText(src , "right elbow " , (20, 60),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
+                        #cv2.putText(src , "right elbow " , (20, 60),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
                         #cv2.circle(src, (round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         cv2.line(src,(round(keypoints[5][2] * WIDTH * X_compress), round(keypoints[5][1] * HEIGHT * Y_compress)),(round(keypoints[7][2] * WIDTH * X_compress), round(keypoints[7][1] * HEIGHT * Y_compress)),(66,66,234),2)
                         cv2.line(src,(round(keypoints[7][2] * WIDTH * X_compress), round(keypoints[7][1] * HEIGHT * Y_compress)),(round(keypoints[9][2] * WIDTH * X_compress), round(keypoints[9][1] * HEIGHT * Y_compress)),(66,66,234),2) 
-                        if command[(len(command))-1]!='b':
-                            command = (command+'b')[:3]
+                        cv2.rectangle(src, ((round(keypoints[5][2] * WIDTH * X_compress)-5), (round(keypoints[5][1] * HEIGHT * Y_compress)-5)),((round(keypoints[5][2] * WIDTH * X_compress)+5), (round(keypoints[5][1] * HEIGHT * Y_compress)+5)), (66,66,234), 2)
+                        if command[(len(command))-1]!='a':
+                            command = (command+'a')[:3]
 
                         #wrong='a'
                         
@@ -361,11 +333,12 @@ while cap.isOpened()  :#and (count < 300)
                     if (25<(round(angle)) < 40)  and (15<(round(angleeeeeee)) < 45): 
                         color=(0,255,0)  
                         
-                        cv2.putText(src , "left elbow " , (20, 100),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
+                       # cv2.putText(src , "left elbow " , (20, 100),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
                         cv2.line(src,(round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)),(round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)),(102,200,111),2)
                         cv2.line(src,(round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)),(round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)),(102,200,111),2) 
-                        if command_3[(len(command_3))-1]!='a':
-                            command_3 = (command_3+'a')[:3]
+                        cv2.circle(src, ((round(keypoints[6][2] * WIDTH * X_compress)+1), (round(keypoints[6][1] * HEIGHT * Y_compress)+1)), 3, (102,200,111), 2)
+                        if command_3[(len(command_3))-1]!='b':
+                            command_3 = (command_3+'b')[:3]
 
                         
                         
@@ -377,14 +350,15 @@ while cap.isOpened()  :#and (count < 300)
                         #s.send(command.encode('utf-8'))
                         
                     else:
-                        cv2.putText(src , "left elbow " , (20, 100),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
+                       # cv2.putText(src , "left elbow " , (20, 100),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
                         #cv2.circle(src, (round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         cv2.line(src,(round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)),(round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)),(66,66,234),2)
                         cv2.line(src,(round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)),(round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)),(66,66,234),2)
-                        if command[(len(command))-1]!='a':
-                            command = (command+'a')[:3]
+                        cv2.rectangle(src, ((round(keypoints[6][2] * WIDTH * X_compress)-5), (round(keypoints[6][1] * HEIGHT * Y_compress)-5)),((round(keypoints[6][2] * WIDTH * X_compress)+5), (round(keypoints[6][1] * HEIGHT * Y_compress)+5)), (66,66,234), 2)
+                        if command[(len(command))-1]!='b':
+                            command = (command+'b')[:3]
 
 
                 
@@ -400,9 +374,10 @@ while cap.isOpened()  :#and (count < 300)
                     if (30<(round(angleee)) < 40)  and (65<(round(angleeeee)) < 80): 
                         color=(0,255,0)  
                         
-                        cv2.putText(src , "left knee " , (20, 140),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
+                        #cv2.putText(src , "left knee " , (20, 140),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
                         cv2.line(src,(round(keypoints[12][2] * WIDTH * X_compress), round(keypoints[12][1] * HEIGHT * Y_compress)),(round(keypoints[14][2] * WIDTH * X_compress), round(keypoints[14][1] * HEIGHT * Y_compress)),(102,200,111),2)
                         cv2.line(src,(round(keypoints[14][2] * WIDTH * X_compress), round(keypoints[14][1] * HEIGHT * Y_compress)),(round(keypoints[16][2] * WIDTH * X_compress), round(keypoints[16][1] * HEIGHT * Y_compress)),(102,200,111),2) 
+                        cv2.circle(src, (round(keypoints[12][2] * WIDTH * X_compress), round(keypoints[12][1] * HEIGHT * Y_compress)), 3, (102,200,111), 2)
                         if command_4[(len(command_4))-1]!='c':
                             command_4 = (command_4+'c')[:3]
 
@@ -416,12 +391,13 @@ while cap.isOpened()  :#and (count < 300)
                         #s.send(command.encode('utf-8'))
                         
                     else:
-                        cv2.putText(src , "left knee " , (20, 140),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
+                       # cv2.putText(src , "left knee " , (20, 140),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
                         #cv2.circle(src, (round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         cv2.line(src,(round(keypoints[12][2] * WIDTH * X_compress), round(keypoints[12][1] * HEIGHT * Y_compress)),(round(keypoints[14][2] * WIDTH * X_compress), round(keypoints[14][1] * HEIGHT * Y_compress)),(66,66,234),2)
                         cv2.line(src,(round(keypoints[14][2] * WIDTH * X_compress), round(keypoints[14][1] * HEIGHT * Y_compress)),(round(keypoints[16][2] * WIDTH * X_compress), round(keypoints[16][1] * HEIGHT * Y_compress)),(66,66,234),2) 
+                        cv2.rectangle(src, ((round(keypoints[12][2] * WIDTH * X_compress)-5), (round(keypoints[12][1] * HEIGHT * Y_compress)-5)),((round(keypoints[12][2] * WIDTH * X_compress)+5), (round(keypoints[12][1] * HEIGHT * Y_compress)+5)), (66,66,234), 2)
                         if command_2[(len(command_2))-1]!='c':
                             command_2 = (command_2+'c')[:3]   
                 
@@ -436,9 +412,10 @@ while cap.isOpened()  :#and (count < 300)
                     if (165<(round(angleeee)) < 180)  and (65<(round(angleeeee)) < 80): 
                         color=(0,255,0)  
                         
-                        cv2.putText(src , "right knee " , (20, 180),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
+                        #cv2.putText(src , "right knee " , (20, 180),  cv2.FONT_HERSHEY_SIMPLEX, 1, (102,200,111), 2,cv2.LINE_AA)
                         cv2.line(src,(round(keypoints[11][2] * WIDTH * X_compress), round(keypoints[11][1] * HEIGHT * Y_compress)),(round(keypoints[13][2] * WIDTH * X_compress), round(keypoints[13][1] * HEIGHT * Y_compress)),(102,200,111),2)
                         cv2.line(src,(round(keypoints[13][2] * WIDTH * X_compress), round(keypoints[13][1] * HEIGHT * Y_compress)),(round(keypoints[15][2] * WIDTH * X_compress), round(keypoints[15][1] * HEIGHT * Y_compress)),(102,200,111),2) 
+                        cv2.circle(src, (round(keypoints[11][2] * WIDTH * X_compress), round(keypoints[11][1] * HEIGHT * Y_compress)), 3, (102,200,111), 2)
                         if command_4[(len(command_4))-1]!='d':
                             command_4 = (command_4+'d')[:3]
 
@@ -452,12 +429,13 @@ while cap.isOpened()  :#and (count < 300)
                         #s.send(command.encode('utf-8'))
                         
                     else:
-                        cv2.putText(src , "right knee " , (20, 180),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
+                        #cv2.putText(src , "right knee " , (20, 180),  cv2.FONT_HERSHEY_SIMPLEX, 1, (66,66,234), 2,cv2.LINE_AA)
                         #cv2.circle(src, (round(keypoints[6][2] * WIDTH * X_compress), round(keypoints[6][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[8][2] * WIDTH * X_compress), round(keypoints[8][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         #cv2.circle(src, (round(keypoints[10][2] * WIDTH * X_compress), round(keypoints[10][1] * HEIGHT * Y_compress)), 3, (0,0,255), 8)
                         cv2.line(src,(round(keypoints[11][2] * WIDTH * X_compress), round(keypoints[11][1] * HEIGHT * Y_compress)),(round(keypoints[13][2] * WIDTH * X_compress), round(keypoints[13][1] * HEIGHT * Y_compress)),(66,66,234),2)
                         cv2.line(src,(round(keypoints[13][2] * WIDTH * X_compress), round(keypoints[13][1] * HEIGHT * Y_compress)),(round(keypoints[15][2] * WIDTH * X_compress), round(keypoints[15][1] * HEIGHT * Y_compress)),(66,66,234),2)
+                        cv2.rectangle(src, ((round(keypoints[11][2] * WIDTH * X_compress)-5), (round(keypoints[11][1] * HEIGHT * Y_compress)-5)),((round(keypoints[11][2] * WIDTH * X_compress)+5), (round(keypoints[11][1] * HEIGHT * Y_compress)+5)), (66,66,234), 2)
                         if command_2[(len(command_2))-1]!='d':
                             command_2 = (command_2+'d')[:3]
 
@@ -498,7 +476,7 @@ while cap.isOpened()  :#and (count < 300)
     with open('aghlat.txt', 'w') as f:
         f.write('%s' % j)
 
-    motivate(j)
+    
     
     
     

@@ -23,7 +23,7 @@ class Ui_Form(object):
         self.label_2.setText("")
         
 
-        self.label_2.setPixmap(QtGui.QPixmap("/usr/local/src/trt_pose/tasks/human_pose/prog.png"))
+        self.label_2.setPixmap(QtGui.QPixmap("/usr/local/src/trt_pose/tasks/human_pose/SAF.png"))
         self.label_2.setObjectName("label_2")
 
         self.retranslateUi(Form)
@@ -37,18 +37,13 @@ class Ui_Form(object):
 if __name__ == "__main__":
     import sys
     import time
-    
-        
-    #time.sleep(10)
-            
+    time.sleep(4)
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
     ui.setupUi(Form)
     Form.show()
     Form.showFullScreen()
-    #QtCore.QTimer.singleShot(20000, Form.close)
-    
+    QtCore.QTimer.singleShot(20000, Form.close)
     sys.exit(app.exec_())
-
 

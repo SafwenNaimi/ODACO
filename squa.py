@@ -1,24 +1,32 @@
 import cv2
-import time
+import numpy as np
+import os
 
 
-time.sleep(5)
 
-cap=cv2.VideoCapture('/usr/local/src/trt_pose/tasks/human_pose/vid.mp4')
+
+
+
+
+video=cv2.VideoCapture('squat.mp4')
 with open('testing.txt', 'r') as f:
     a=f.read()
-
-while (cap.isOpened() and ((a == 'do start') or (a == 'do start\n'))):
+    
+while (video.isOpened() and ((a == 'do start') or (a == 'do start\n'))):
     with open('testing.txt', 'r') as f:
         a=f.read()
-    ret,frame=cap.read()
+    grabbed, frame=video.read()
+        
+        
     cv2.namedWindow ('key', cv2.WINDOW_NORMAL)
     cv2.setWindowProperty ('key', cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
     cv2.imshow('key',frame)
-    if cv2.waitKey(1) & 0xFF==ord('q'):
+    if cv2.waitKey(1) & 0xFF==ord('q'): #1
         break
-
-
-cap.release()
+        
+        
+video.release()
 cv2.destroyAllWindows()
+
+
 

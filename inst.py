@@ -36,13 +36,21 @@ class Ui_Form(object):
 if __name__ == "__main__":
     import sys
     import time
-    time.sleep(28)
+   
+        
+    #time.sleep(28)
+            
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
     ui = Ui_Form()
     ui.setupUi(Form)
+    
     Form.show()
-    QtCore.QTimer.singleShot(30000, Form.close)
     Form.showFullScreen()
     sys.exit(app.exec_())
+        
+
+    
+            
+    
 
