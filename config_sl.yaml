@@ -1,0 +1,104 @@
+# Dataset Parameters
+
+#num_classes: 10
+num_classes: 5
+#num_classes: 2
+
+
+# define lebels to class dictionary
+#labels_to_class:
+#  0: 'n01440764'
+#  1: 'n02102040'
+#  2: 'n02979186'
+#  3: 'n03000684'
+#  4: 'n03028079'
+#  5: 'n03394916'
+#  6: 'n03417042'
+#  7: 'n03425413'
+#  8: 'n03445777'
+#  9: 'n03888257'
+
+
+
+#labels_to_class:
+#  0: 'airplane'
+#  1: 'bird'
+#  2: 'car'
+#  3: 'cat'
+#  4: 'gazelle'
+#  5: 'boat'
+#  6: 'dog'
+#  7: 'horse'
+#  8: 'monkey'
+#  9: 'truck'
+
+#labels_to_class:
+#  0: 'boat'
+#  1: 'dog'
+#  2: 'horse'
+#  3: 'monkey'
+#  4: 'truck'
+
+
+labels_to_class:
+  0: 'airplane'
+  1: 'bird'
+  2: 'car'
+  3: 'cat'
+  4: 'gazelle'
+
+
+mean_val: [0.51290169 0.51136089 0.49742605]#[147.16463878,147.02933698,121.82977662]
+std_val: [0.21390466 0.22544737 0.24699091]#[23.35500145,24.29656621,53.20534792]
+
+
+#paths
+root_path: 'Python Scripts/Self Supervised Learning'
+data_path: 'Python Scripts/Self Supervised Learning/datasett'
+#path: 'datasett/images/'
+#path_2: 'datasett/annotations/small_labeled_data.csv'
+exp_type: 'supervised' # 'supervised' or 'self-supervised'
+save_dir: 'pret_res' #sl_resnet_rot
+imgs_dir: 'images'
+labels_dir: 'annotations'
+log: 'train.log'
+
+# Self Supervised Params
+pretext: False
+num_rot: 4
+
+#supervised params
+use_pretrained: False
+pretrained_dir: 'sl_Resnet'
+pretrained_weights: 'resnet18_best.pth'
+
+use_ssl: True
+ssl_pretrained_exp_path: 'ssl_exp'
+ssl_weight: 'new_byol_small.pth'
+
+
+#model parameters
+network: 'resnet18'
+lr: 0.0001 #5e-4  3e-4
+momentum: 9e-1
+scheduler: True
+opt: 'sgd'
+
+# Training Parameters
+num_epochs: 800
+batch_size: 4
+mean_norm: False
+img_sz: 96
+val_split: 0.15
+cuda_num: 0
+use_cuda: True
+data_aug: True #['randomhorizontalflip','randomcrop']# None
+
+# pretrained model
+
+
+#saving parameters
+save_intermediate_weights: 300 # After how many epoch to save the weights
+
+
+
